@@ -1,25 +1,50 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
-header {
-    position: fixed;
+@import url('https://fonts.googleapis.com/css2?family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&family=Merienda:wght@300..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.page-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+header {
+    background-color: rgb(40, 40, 40);
+    height: 60px;
+    position: fixed;
+    right: 0;
+    left: 0;
 }
 
 .nav-header {
-    width: 100vw;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0px 20px;
-    background-color: rgb(240, 240, 100);
+    padding: 6px 40px;
+}
+
+.nav-header a {
+    font-family: "Nunito", Arial, Helvetica, sans-serif;
+    text-decoration: none;
+    color: rgb(250, 250, 250);
 }
 
 .nav-logo {
-    font-family: "Oswald", Arial, Helvetica, sans-serif;
+    font-family: "Merienda", Arial, Helvetica, sans-serif;
     font-size: 24px;
+    color:  rgb(250, 250, 250);
+}
+
+.nav-search {
+    width: 40%;
+    height: 30px;
+    border-radius: 3px;
+    border: none;
+    padding: 0 15px;
+    font-family: "Nunito", Arial, Helvetica, sans-serif;
+}
+
+.page-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
