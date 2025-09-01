@@ -11,18 +11,42 @@
     <title>LITReview</title>
 </head>
 <body>
-    <header class="nav-header">
-        <h1 class="nav-logo"><span>LIT</span>Review</h1>
-        <textarea class="nav-search" placeholder="Search for a book..."></textarea>
-        <nav>
-            <a href="{% url 'register' %}">Sign Up</a>
-        </nav>
-    </header>
+    {% block navbar %}
+    nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'review_list' %}">LITReview</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <main>
-        <div class="page-content">
-            {% block content %}{% endblock %}
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'review_list' %}">review_list</a>
+            </li>
+            
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'register' %}">Sign Up</a>
+            </li>
+            {% endif %}
+          </ul>
         </div>
-    </main>
+      </div>
+    {% endblock %}
+
+    <div class=""container mt-4">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
