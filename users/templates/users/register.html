@@ -2,19 +2,21 @@
 
 {% block content %}
 
-<h2>Sign Up</h2>
-<form method="post" class="" card p-3>
-  {% csrf_token %}
-  {% for field in form %}
+<div class="sign-up-container col-md-3 text-center">
+  <h2 class="mb-5 display-3">Sign Up</h2>
+  <form method="post" class="d-flex flex-column justify-content-center" card p-3>
+    {% csrf_token %}
 
-  <div class="mb-3">
-    {{ field.label_tag }}
-    {{ field }}
-    {{ field.errors }}
-  </div>
+    {% for field in form %}
+    <div class="mb-5 d-flex flex-column">
+      {{ field.label_tag }}
+      {{ field }}
+      {{ field.errors }}
+    </div>
+    {% endfor %}
 
-  {% endfor %}
-  <button type="submit" class="btn btn-primary">Sign Up</button>
-</form>
+    <button type="submit" class="btn btn-primary ">Sign Up</button>
+  </form>
+</div>
 
 {% endblock %}
