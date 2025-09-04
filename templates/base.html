@@ -14,7 +14,7 @@
 
 <body>
     {% block navbar %}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark position-absolute container-fluid">
         <div class="container-fluid">
             <a class="navbar-brand" href="{% url 'home' %}">LITReview</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -42,7 +42,7 @@
     </nav>
         {% endblock %}
 
-        <div class="d-flex flex-column justify-content-center align-items-center min-vh-100" container mt-4">
+        <div class="d-flex justify-content-center align-items-center min-vh-100" container mt-4">
             {% block content %}{% endblock %}
         </div>
 

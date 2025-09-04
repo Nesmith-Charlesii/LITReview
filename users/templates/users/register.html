@@ -1,20 +1,23 @@
 {% extends "base.html" %}
+{% load widget_tweaks %}
 
 {% block content %}
 
 <div class="sign-up-container col-md-3 text-center">
-  <h2 class="mb-5 display-3">Sign Up</h2>
+  <h2 class="mb-5 display-4" style="padding-bottom: 10px;">Sign Up</h2>
   <form method="post" class="d-flex flex-column justify-content-center" card p-3>
     {% csrf_token %}
 
     {% for field in form %}
-    <div class="mb-5 d-flex flex-column">
-      {{ field.label_tag }}
-      {{ field }}
-      {{ field.errors }}
-    </div>
+      {% with ph=field.label|striptags %}
+        {% with placeholder="placeholder:"|add:ph %}
+          <div class="mb-5 d-flex flex-column">
+            {{ field|add_class:"form-control"|attr:placeholder }}
+            {{ field.errors }}
+          </div>
+        {% endwith %}
+      {% endwith %}
     {% endfor %}
-
     <button type="submit" class="btn btn-primary ">Sign Up</button>
   </form>
 </div>
