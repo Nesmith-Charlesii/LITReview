@@ -3,13 +3,13 @@
 
 {% block content %}
 <div class="container-fluid d-flex justify-content-center align-items-center" style="height: 100vh;">
-  <form method="post" class="col-md-3 text-center">
+  <form method="post" class="col-md-2 text-center">
     {% csrf_token %}
-    <h2 class="mb-5 display-4" style="padding-bottom: 10px;">Sign Up</h2>
+    <h2 class="mb-5 display-5" style="padding-bottom: 10px;">Create an Account</h2>
     {% for field in form %}
       {% with ph=field.label|striptags %}
         {% with placeholder="placeholder:"|add:ph %}
-          <div class="d-flex flex-column" style="margin-bottom: 80px;">
+          <div class="d-flex flex-column" style="margin-bottom: 60px;">
             {{ field|add_class:"form-control text-center"|attr:placeholder }}
             {{ field.errors }}
           </div>

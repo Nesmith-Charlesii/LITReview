@@ -3,13 +3,13 @@
 
 {% block content %}
 <div class="container-fluid d-flex justify-content-center align-items-center" style="height: 100vh;">
-  <form method="post" class="col-md-3 text-center">
+  <form method="post" class="col-md-2 text-center">
     {% csrf_token %}
-    <h2 class="mb-5 display-4" style="padding-bottom: 10px;">Log In</h2>
+    <h2 class="mb-5 display-5" style="padding-bottom: 10px;">Log In</h2>
     {% for field in form %}
       {% with ph=field.label|striptags %}
         {% with placeholder="placeholder:"|add:ph %}
-          <div class="d-flex flex-column" style="margin-bottom: 80px;">
+          <div class="d-flex flex-column" style="margin-bottom: 60px;">
             {{ field|add_class:"form-control text-center"|attr:placeholder }}
             {{ field.errors }}
           </div>
@@ -17,8 +17,13 @@
       {% endwith %}
     {% endfor %}
     <div class="d-flex justify-content-center">
-      <button type="submit" class="btn btn-primary col-md-4">Log In</button>
+      <button type="submit" class="btn btn-primary col-md-4 mb-5">Log In</button>
     </div>
+    <p class="mb-5" style="font-size: 26px; font-weight: 250;">Don't have an account?</p>
+    <div class="d-flex justify-content-center mb-5">
+      <a href="{% url 'register' %}"  class="btn btn-secondary col-md-4" style="text-decoration: none;">Sign Up</a>
+    </div>
+    </a>
   </form>
 </div>
 
