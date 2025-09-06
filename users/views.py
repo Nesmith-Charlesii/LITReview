@@ -4,10 +4,6 @@ from django.contrib.auth import login, logout
 from django.shortcuts import render, redirect
 
 
-def home(request):
-    return render(request, "home.html")
-
-
 def register(request):
     if request.user.is_authenticated:
         return redirect("home") # Redirect to their profile page if already logged in
@@ -16,7 +12,6 @@ def register(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
             return redirect("success")  # Redirect to success page with link to login
     else:
         form = CustomUserCreationForm() # What does this return by default without any arguments?
