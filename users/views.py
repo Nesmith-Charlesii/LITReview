@@ -10,14 +10,14 @@ def home(request):
 
 def register(request):
     if request.user.is_authenticated:
-        return redirect("home")
+        return redirect("home") # Redirect to their profile page if already logged in
 
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect("home")  # Redirect to a home page or dashboard after registration
+            return redirect("success")  # Redirect to success page with link to login
     else:
         form = CustomUserCreationForm() # What does this return by default without any arguments?
     return render(request, "users/register.html", {"form": form})
@@ -36,6 +36,9 @@ def login_view(request):
     else:
         form = AuthenticationForm()
     return render(request, "users/login.html", {"form": form})
+
+def success(request):
+    return render(request, "users/success.html")
 
 def logout_view(request):
     logout(request)

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<div class="container-fluid d-flex justify-content-center style="height: 100vh;">
+  <div class="d-flex flex-column">
+    <h1 class="display-3 mb-5">You're all set! 🎉</h1>
+    <div class="d-flex justify-content-center">
+      <a href="{% url 'login' %}" class="btn btn-success col-md-4">Login</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
