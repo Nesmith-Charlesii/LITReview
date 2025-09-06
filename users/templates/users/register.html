@@ -2,23 +2,23 @@
 {% load widget_tweaks %}
 
 {% block content %}
-
-<div class="sign-up-container col-md-3 text-center">
-  <h2 class="mb-5 display-4" style="padding-bottom: 10px;">Sign Up</h2>
-  <form method="post" class="d-flex flex-column justify-content-center" card p-3>
+<div class="container-fluid d-flex justify-content-center align-items-center" style="height: 100vh;">
+  <form method="post" class="col-md-3 text-center">
     {% csrf_token %}
-
+    <h2 class="mb-5 display-4" style="padding-bottom: 10px;">Sign Up</h2>
     {% for field in form %}
       {% with ph=field.label|striptags %}
         {% with placeholder="placeholder:"|add:ph %}
-          <div class="mb-5 d-flex flex-column">
-            {{ field|add_class:"form-control"|attr:placeholder }}
+          <div class="d-flex flex-column" style="margin-bottom: 80px;">
+            {{ field|add_class:"form-control text-center"|attr:placeholder }}
             {{ field.errors }}
           </div>
         {% endwith %}
       {% endwith %}
     {% endfor %}
-    <button type="submit" class="btn btn-primary ">Sign Up</button>
+    <div class="d-flex justify-content-center">
+      <button type="submit" class="btn btn-primary col-md-4">Sign Up</button>
+    </div>
   </form>
 </div>
 
