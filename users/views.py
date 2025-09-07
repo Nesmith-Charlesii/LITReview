@@ -20,7 +20,7 @@ def register(request):
 
 def login_view(request):
     if request.user.is_authenticated:
-        return redirect("home")
+        return redirect("home") # Redirect to their profile page if already logged in
 
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
