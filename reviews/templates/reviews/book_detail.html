@@ -15,7 +15,16 @@
                 {{book.description}}
             </div>
             <div class="d-flex justify-content-center">
-                <a href="#" class="btn btn-secondary col-md-5" style="text-decoration: none; ">Post a review for this book</a>
+                {% if user.is_authenticated %}
+                    {% if not reviews|dictsort:"user.id"|dictsortreversed:"user.id"|yesno:"True,False" %}
+                        <!-- If user has not posted a review, show post button -->
+                        <a href="{% url 'reviews:create_review' book.id %}" class="btn btn-secondary col-md-5" style="text-decoration: none;">Post a review for this book</a>
+                    {% endif %}
+                {% else %}
+                    <div class="alert alert-info col-md-8 text-center">
+                        <a href="{% url 'login' %}">Log in</a> or <a href="{% url 'register' %}">sign up</a> to post a review for this book.
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -24,33 +33,38 @@
         <div class="display-6 d-flex justify-content-center mb-4">
             Reviews
         </div>
-    {% for review in reviews %}
-        <div class="border border-2 rounded-3 p-3 mb-3">
-            <div class="h5">
-                {{review.user.username}} 
-                <span class="h6 text-muted"> - on {{review.created|date:"M d, Y"}}</span>
+        {% for review in reviews %}
+            <div class="border border-2 rounded-3 p-3 mb-3">
+                <div class="h5">
+                    {{review.user.username}} 
+                    <span class="h6 text-muted"> - on {{review.created|date:"M d, Y"}}</span>
+                </div>
+                <div>
+                    <!-- Star Rating -->
+                    <span style="color: #FFD700; font-size: 1.2em;">
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= review.rating %}
+                                &#9733;
+                            {% else %}
+                                &#9734;
+                            {% endif %}
+                        {% endfor %}
+                    </span>
+                </div>
+                <div>
+                    {{review.body}}
+                </div>
+                {% if user.is_authenticated and review.user == user %}
+                    <div class="mt-2">
+                        <a href="{% url 'edit_review' review.id %}" class="btn btn-sm btn-outline-primary">Edit</a>
+                        <a href="{% url 'delete_review' review.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                    </div>
+                {% endif %}
             </div>
-            <div>
-                <!-- Star Rating -->
-                <span style="color: #FFD700; font-size: 1.2em;">
-                    {% for i in "12345" %}
-                        {% if forloop.counter <= review.rating %}
-                            &#9733;
-                        {% else %}
-                            &#9734;
-                        {% endif %}
-                    {% endfor %}
-                </span>
+        {% empty %}
+            <div class="text-muted">
+                No reviews yet. Be the first to review this book!
             </div>
-            <div>
-                {{review.body}}
-            </div>
-        </div>
-    {% empty %}
-        <div class="text-muted">
-            No reviews yet. Be the first to review this book!
-        </div>
-    {% endfor %}
-</div>
-
+        {% endfor %}
+    </div>
 {% endblock %}
