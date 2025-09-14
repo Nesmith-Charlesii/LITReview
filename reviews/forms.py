@@ -1,5 +1,5 @@
 from django import forms
-from .models import Review
+from .models import Review, Book
 
 class ReviewForm(forms.ModelForm):
     class Meta:
@@ -11,7 +11,12 @@ class ReviewForm(forms.ModelForm):
             'rating': forms.NumberInput(attrs={'class': 'form-control', 'min': 1, 'max': 5}),
         }
 
-class BookForm(forms.Form):
-    title = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    description = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5}), required=False)
-    image = forms.ImageField(required=False)
+class BookForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = ['title', 'description', 'image']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
+            'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+        }
