@@ -3,12 +3,9 @@
 
 {% block content %}
 <div class="container-fluid d-flex justify-content-center align-items-center" style="height: 100vh;">
-    <div class="px-5 d-flex justify-content-center">
-        <img src={{book.image.url}} alt={{book.title}} style="height: 450px;">
-    </div>
     <form method="post" class="col-md-4 text-center">
         {% csrf_token %}
-        <h2 class="mb-5 display-5" style="padding-bottom: 10px;">Edit Review</h2>
+        <h2 class="mb-5 display-5" style="padding-bottom: 10px;">Create a Book</h2>
         {% for field in form %}
         {% with ph=field.label|striptags %}
             {% with placeholder="placeholder:"|add:ph %}
@@ -20,10 +17,10 @@
         {% endwith %}
         {% endfor %}
         <div class="d-flex justify-content-center">
-        <button type="submit" class="btn btn-primary col-md-4 mb-5">Save Changes</button>
+        <button type="submit" class="btn btn-primary col-md-4 mb-5">Add Book</button>
         </div>
         <div class="d-flex justify-content-center mb-5">
-        <a href="{% url 'book_view' review.book.id %}"  class="btn btn-secondary col-md-4" style="text-decoration: none;">Cancel</a>
+        
         </div>
         </a>
     </form>

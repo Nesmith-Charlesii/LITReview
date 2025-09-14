@@ -35,13 +35,13 @@
         </div>
         {% for review in reviews %}
             <div class="border border-2 rounded-3 p-3 mb-3">
-                <div class="h5">
+                <div class="h5" style="font-size: 16px;">
                     {{review.user.username}} 
                     <span class="h6 text-muted"> - on {{review.created|date:"M d, Y"}}</span>
                 </div>
                 <div>
                     <!-- Star Rating -->
-                    <span style="color: #FFD700; font-size: 1.2em;">
+                    <span style="color: #ff6a00; font-size: 1.2em;">
                         {% for i in "12345" %}
                             {% if forloop.counter <= review.rating %}
                                 &#9733;
@@ -50,6 +50,7 @@
                             {% endif %}
                         {% endfor %}
                     </span>
+                    <p style="font-weight: 700;">{{review.headline}}</p>
                 </div>
                 <div>
                     {{review.body}}
