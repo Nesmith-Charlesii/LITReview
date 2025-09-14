@@ -4,9 +4,11 @@
 {% block content %}
 <div class="container-md d-flex flex-column justify-content-center" style="height: 100vh;">
     <div class="d-flex p-5 border border-3 rounded-3 shadow-lg" style="margin-bottom: 60px;">
+        {% if book.image %}
         <div class="px-5 d-flex justify-content-center">
             <img src={{book.image.url}} alt={{book.title}} style="height: 450px;">
         </div>
+        {% endif %}
         <div class="d-flex flex-column">
             <div class="display-5 d-flex justify-content-center mb-4">
                 {{book.title}}
