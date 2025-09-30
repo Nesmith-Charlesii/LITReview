@@ -14,7 +14,7 @@
 
 <body>
     {% block navbar %}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark position-absolute container-fluid">
+    <nav class="navbar navbar-dark bg-dark position-absolute container-fluid">
         <div class="container-fluid">
             <a class="navbar-brand" href="{% url 'home' %}">LITReview</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -30,10 +30,10 @@
                     </li>
                     {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'register' %}">Sign up</a>
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                        <a class="nav-link" href="{% url 'register' %}">Sign up</a>
                     </li>
                     {% endif %}
                 </ul>

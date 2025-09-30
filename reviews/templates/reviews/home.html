@@ -1,5 +1,45 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Como te va!</h2>
+<div class="container mt-5">
+    <h2 class="mb-4">Your Feed</h2>
+    {% if show_all_reviews_link %}
+        <div class="mb-4">
+            <a href="{% url 'home' %}?all=1" class="btn btn-outline-primary">See All Reviews</a>
+        </div>
+    {% endif %}
+
+    {% if reviews %}
+        {% for review in reviews %}
+            <div class="border border-2 rounded-3 p-3 mb-3">
+                <div class="h5">
+                    {{ review.user.username }}
+                    <span class="h6 text-muted"> - on {{ review.created|date:"M d, Y" }}</span>
+                </div>
+                <div>
+                    <span style="color: #ff6a00; font-size: 1.2em;">
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= review.rating %}
+                                &#9733;
+                            {% else %}
+                                &#9734;
+                            {% endif %}
+                        {% endfor %}
+                    </span>
+                    <p style="font-weight: 700;">{{ review.headline }}</p>
+                </div>
+                <div>
+                    {{ review.body }}
+                </div>
+                <div>
+                    <a href="{% url 'book_view' review.book.id %}" class="btn btn-sm btn-link">View Book</a>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="text-muted">
+            No reviews to show.
+        </div>
+    {% endif %}
+</div>
 {% endblock %}

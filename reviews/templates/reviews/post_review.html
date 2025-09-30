@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="container-fluid d-flex justify-content-center align-items-center" style="height: 100vh;">
+    {% if book.image %}
+    <div class="px-5 d-flex justify-content-center">
+        <img src="{{ book.image.url }}" alt="{{ book.title }}" style="height: 450px;">
+    </div>
+    {% endif %}
+    <form method="post" class="col-md-4 text-center">
+        {% csrf_token %}
+        <h2 class="mb-5 display-5" style="padding-bottom: 10px;">Post Review</h2>
+        {% for field in form %}
+            {% if field.name == "headline" %}
+                {% with ph=field.label|striptags %}
+                    {% with placeholder="placeholder:"|add:ph %}
+                    <div class="d-flex flex-column" style="margin-bottom: 60px;">
+                        {{ field|add_class:"form-control text-center"|attr:placeholder }}
+                        {{ field.errors }}
+                    </div>
+                    {% endwith %}
+                {% endwith %}
+            {% endif %}
+        {% endfor %}
+        <!-- Rating field as radio buttons -->
+        <div class="d-flex flex-column align-items-center mb-4">
+            <label class="mb-2" style="font-weight: 600;">Rating</label>
+            <div>
+                {% for i in "12345" %}
+                    <label class="mx-1">
+                        <input type="radio" name="rating" value="{{ forloop.counter }}" {% if form.rating.value|stringformat:"s" == forloop.counter|stringformat:"s" %}checked{% endif %}>
+                        {{ forloop.counter }}
+                    </label>
+                {% endfor %}
+            </div>
+            {{ form.rating.errors }}
+        </div>
+        <!-- Body field after rating, left-justified text area, no placeholder -->
+        {% for field in form %}
+            {% if field.name == "body" %}
+                <div class="d-flex flex-column" style="margin-bottom: 60px;">
+                    {{ field|add_class:"form-control text-start" }}
+                    {{ field.errors }}
+                </div>
+            {% endif %}
+        {% endfor %}
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary col-md-4 mb-5">Submit Review</button>
+        </div>
+        <div class="d-flex justify-content-center mb-5">
+            <a href="{% url 'book_view' book.id %}" class="btn btn-secondary col-md-4" style="text-decoration: none;">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

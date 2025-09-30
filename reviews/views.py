@@ -4,7 +4,22 @@ from .forms import ReviewForm, BookForm
 
 
 def home(request):
-    return render(request, "reviews/home.html")
+    if request.user.is_authenticated:
+        followed_users = request.user.following.all()
+        reviews = Review.objects.filter(user__in=followed_users).order_by('-created')
+        show_all_reviews_link = True
+    else:
+        reviews = Review.objects.all().order_by('-created')
+        show_all_reviews_link = False
+
+    return render(
+        request,
+        "reviews/home.html",
+        {
+            "reviews": reviews,
+            "show_all_reviews_link": show_all_reviews_link,
+        }
+    )
 
 def book_detail(request, pk):
     book = get_object_or_404(Book, pk=pk)
@@ -25,6 +40,22 @@ def add_book(request):
     else:
         form = BookForm()
     return render(request, "reviews/add_book.html", {"form": form})
+
+def post_review(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    if request.method == "POST":
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = Review(
+                book=book,
+                content=form.cleaned_data['content'],
+                rating=form.cleaned_data['rating']
+            )
+            review.save()
+            return redirect("book_view", pk=book.pk)
+    else:
+        form = ReviewForm()
+    return render(request, "reviews/post_review.html", {"form": form, "book": book})
 
 def edit_review(request, pk):
     review = get_object_or_404(Review, pk=pk)
