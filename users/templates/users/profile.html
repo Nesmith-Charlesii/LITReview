@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>{{ profile_user.full_name }}</h2>
+    <p class="text-muted">@{{ profile_user.username }}</p>
+
+    {% if user != profile_user %}
+        {% if is_following %}
+            <form method="post" action="{% url 'unfollow_user' profile_user.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger mb-3">Unfollow</button>
+            </form>
+        {% else %}
+            <form method="post" action="{% url 'follow_user' profile_user.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary mb-3">Follow</button>
+            </form>
+        {% endif %}
+    {% endif %}
+
+    <div class="mb-3">
+        <strong>Following:</strong>
+        {% for u in profile_user.following.all %}
+            <a href="{% url 'profile' u.id %}">{{ u.full_name }}</a>{% if not forloop.last %}, {% endif %}
+        {% empty %}
+            <span>No one</span>
+        {% endfor %}
+    </div>
+    <div class="mb-3">
+        <strong>Followers:</strong>
+        <div class="d-flex flex-column">
+            {% for u in profile_user.followers.all %}
+                <a href="{% url 'profile' u.id %}">{{ u.full_name }} <span class="text-muted">@{{ u.username }}</span></a>
+            {% empty %}
+                <span>No followers</span>
+            {% endfor %}
+        </div>
+    </div>
+
+    <h4 class="mt-4">Reviews by {{ profile_user.full_name }}</h4>
+    {% for review in reviews %}
+        <div class="border border-2 rounded-3 p-3 mb-3">
+            <div class="h5">
+                {{ review.headline }}
+                <span class="h6 text-muted"> - on {{ review.created|date:"M d, Y" }}</span>
+            </div>
+            <div>
+                <span style="color: #ff6a00; font-size: 1.2em;">
+                    {% for i in "12345" %}
+                        {% if forloop.counter <= review.rating %}
+                            &#9733;
+                        {% else %}
+                            &#9734;
+                        {% endif %}
+                    {% endfor %}
+                </span>
+            </div>
+            <div>
+                {{ review.body }}
+            </div>
+            <div>
+                <a href="{% url 'book_view' review.book.id %}" class="btn btn-sm btn-link">View Book</a>
+            </div>
+        </div>
+    {% empty %}
+        <div class="text-muted">No reviews yet.</div>
+    {% endfor %}
+</div>
+{% endblock %}
