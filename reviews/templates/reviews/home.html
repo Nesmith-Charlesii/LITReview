@@ -2,37 +2,36 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2 class="mb-4">Your Feed</h2>
-    {% if show_all_reviews_link %}
-        <div class="mb-4">
-            <a href="{% url 'home' %}?all=1" class="btn btn-outline-primary">See All Reviews</a>
-        </div>
-    {% endif %}
-
+    <h2 class="mb-4">All Reviews</h2>
     {% if reviews %}
         {% for review in reviews %}
-            <div class="border border-2 rounded-3 p-3 mb-3">
-                <div class="h5">
-                    {{ review.user.username }}
-                    <span class="h6 text-muted"> - on {{ review.created|date:"M d, Y" }}</span>
-                </div>
+            <div class="border border-2 rounded-3 p-3 mb-3 d-flex align-items-center">
+                {% if review.book.image %}
+                    <img src="{{ review.book.image.url }}" alt="{{ review.book.title }}" style="height: 120px; width: auto;" class="me-4 rounded">
+                {% endif %}
                 <div>
-                    <span style="color: #ff6a00; font-size: 1.2em;">
-                        {% for i in "12345" %}
-                            {% if forloop.counter <= review.rating %}
-                                &#9733;
-                            {% else %}
-                                &#9734;
-                            {% endif %}
-                        {% endfor %}
-                    </span>
-                    <p style="font-weight: 700;">{{ review.headline }}</p>
-                </div>
-                <div>
-                    {{ review.body }}
-                </div>
-                <div>
-                    <a href="{% url 'book_view' review.book.id %}" class="btn btn-sm btn-link">View Book</a>
+                    <div class="h5 mb-1">
+                        {{ review.user.full_name }} 
+                        <span class="h6 text-muted">on {{ review.created|date:"M d, Y" }}</span>
+                    </div>
+                    <div>
+                        <span style="color: #ff6a00; font-size: 1.2em;">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= review.rating %}
+                                    &#9733;
+                                {% else %}
+                                    &#9734;
+                                {% endif %}
+                            {% endfor %}
+                        </span>
+                        <span class="fw-bold">{{ review.headline }}</span>
+                    </div>
+                    <div>
+                        {{ review.body }}
+                    </div>
+                    <div>
+                        <a href="{% url 'book_view' review.book.id %}" class="btn btn-sm btn-link">View Book</a>
+                    </div>
                 </div>
             </div>
         {% endfor %}
