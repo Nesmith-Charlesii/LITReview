@@ -1,4 +1,4 @@
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, EmailAuthenticationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
 from django.shortcuts import render, redirect, get_object_or_404
@@ -41,13 +41,13 @@ def login_view(request):
         return redirect("home")  # Redirect to home if already logged in
 
     if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
+        form = EmailAuthenticationForm(request.POST)
         if form.is_valid():
             user = form.get_user()
             login(request, user)
             return redirect("home")
     else:
-        form = AuthenticationForm()
+        form = EmailAuthenticationForm()
     return render(request, "users/login.html", {"form": form})
 
 def success(request):

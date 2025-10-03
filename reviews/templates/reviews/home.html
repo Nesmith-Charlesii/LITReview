@@ -2,7 +2,17 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2 class="mb-4">All Reviews</h2>
+    {% if user.is_authenticated %}
+        <h2 class="mb-4">Your Feed</h2>
+        <div class="mb-4 d-flex gap-2">
+            <a href="{% url 'home' %}?all=1" class="btn btn-outline-primary">See All Reviews</a>
+            {% if request.GET.all %}
+                <a href="{% url 'home' %}" class="btn btn-outline-secondary">Show Only People I Follow</a>
+            {% endif %}
+        </div>
+    {% else %}
+        <h2 class="mb-4">All Reviews</h2>
+    {% endif %}
     {% if reviews %}
         {% for review in reviews %}
             <div class="border border-2 rounded-3 p-3 mb-3 d-flex align-items-center">
@@ -10,9 +20,9 @@
                     <img src="{{ review.book.image.url }}" alt="{{ review.book.title }}" style="height: 120px; width: auto;" class="me-4 rounded">
                 {% endif %}
                 <div>
-                    <div class="h5 mb-1">
-                        {{ review.user.full_name }} 
-                        <span class="h6 text-muted">on {{ review.created|date:"M d, Y" }}</span>
+                    <!-- Book title at the top -->
+                    <div class="h4 mb-2">
+                        <strong>{{ review.book.title }}</strong>
                     </div>
                     <div>
                         <span style="color: #ff6a00; font-size: 1.2em;">
@@ -26,8 +36,16 @@
                         </span>
                         <span class="fw-bold">{{ review.headline }}</span>
                     </div>
-                    <div>
+                    <!-- Review body, reviewer, and date at the bottom -->
+                    <div class="mt-2">
                         {{ review.body }}
+                    </div>
+                    <div class="text-muted mt-2" style="font-size: 0.95em;">
+                        New review by 
+                        <a href="{% url 'profile' review.user.id %}" style="text-decoration: none;">
+                            {{ review.user.full_name }} <span class="text-muted">@{{ review.user.username }}</span>
+                        </a>
+                        on {{ review.created|date:"M d, Y h:i a" }}
                     </div>
                     <div>
                         <a href="{% url 'book_view' review.book.id %}" class="btn btn-sm btn-link">View Book</a>

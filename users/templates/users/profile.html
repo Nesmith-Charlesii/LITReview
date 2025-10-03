@@ -4,6 +4,7 @@
 <div class="container mt-5">
     <h2>{{ profile_user.full_name }}</h2>
     <p class="text-muted">@{{ profile_user.username }}</p>
+    <p class="text-muted">{{ profile_user.email }}</p>
 
     {% if user != profile_user %}
         {% if is_following %}
@@ -21,11 +22,13 @@
 
     <div class="mb-3">
         <strong>Following:</strong>
-        {% for u in profile_user.following.all %}
-            <a href="{% url 'profile' u.id %}">{{ u.full_name }}</a>{% if not forloop.last %}, {% endif %}
-        {% empty %}
-            <span>No one</span>
-        {% endfor %}
+        <div class="d-flex flex-column">
+            {% for u in profile_user.following.all %}
+                <a href="{% url 'profile' u.id %}">{{ u.full_name }} <span class="text-muted">@{{ u.username }}</span></a>
+            {% empty %}
+                <span>Not following anyone</span>
+            {% endfor %}
+        </div>
     </div>
     <div class="mb-3">
         <strong>Followers:</strong>

@@ -2,24 +2,43 @@
 {% load widget_tweaks %}
 
 {% block content %}
-<div class="container-fluid d-flex justify-content-center align-items-center" style="height: 100vh;">
-  <form method="post" class="col-md-2 text-center">
-    {% csrf_token %}
-    <h2 class="mb-5 display-5" style="padding-bottom: 10px;">Create an Account</h2>
-    {% for field in form %}
-      {% with ph=field.label|striptags %}
-        {% with placeholder="placeholder:"|add:ph %}
-          <div class="d-flex flex-column" style="margin-bottom: 60px;">
-            {{ field|add_class:"form-control text-center"|attr:placeholder }}
-            {{ field.errors }}
-          </div>
-        {% endwith %}
-      {% endwith %}
-    {% endfor %}
-    <div class="d-flex justify-content-center">
-      <button type="submit" class="btn btn-primary col-md-4">Sign Up</button>
-    </div>
-  </form>
+<div class="container mt-5">
+    <h2 class="mb-4">Sign Up</h2>
+    <form method="post" class="row g-3">
+        {% csrf_token %}
+        <div class="col-md-6">
+            {{ form.username.label_tag }}
+            {{ form.username|add_class:"form-control" }}
+            {{ form.username.errors }}
+        </div>
+        <div class="col-md-6">
+            {{ form.email.label_tag }}
+            {{ form.email|add_class:"form-control" }}
+            {{ form.email.errors }}
+        </div>
+        <div class="col-md-6">
+            {{ form.first_name.label_tag }}
+            {{ form.first_name|add_class:"form-control" }}
+            {{ form.first_name.errors }}
+        </div>
+        <div class="col-md-6">
+            {{ form.last_name.label_tag }}
+            {{ form.last_name|add_class:"form-control" }}
+            {{ form.last_name.errors }}
+        </div>
+        <div class="col-md-6">
+            {{ form.password1.label_tag }}
+            {{ form.password1|add_class:"form-control" }}
+            {{ form.password1.errors }}
+        </div>
+        <div class="col-md-6">
+            {{ form.password2.label_tag }}
+            {{ form.password2|add_class:"form-control" }}
+            {{ form.password2.errors }}
+        </div>
+        <div class="col-12 d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary px-5">Sign Up</button>
+        </div>
+    </form>
 </div>
-
 {% endblock %}

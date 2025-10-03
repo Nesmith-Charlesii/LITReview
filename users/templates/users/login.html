@@ -2,29 +2,27 @@
 {% load widget_tweaks %}
 
 {% block content %}
-<div class="container-fluid d-flex justify-content-center align-items-center" style="height: 100vh;">
-  <form method="post" class="col-md-2 text-center">
-    {% csrf_token %}
-    <h2 class="mb-5 display-5" style="padding-bottom: 10px;">Log In</h2>
-    {% for field in form %}
-      {% with ph=field.label|striptags %}
-        {% with placeholder="placeholder:"|add:ph %}
-          <div class="d-flex flex-column" style="margin-bottom: 60px;">
-            {{ field|add_class:"form-control text-center"|attr:placeholder }}
-            {{ field.errors }}
-          </div>
-        {% endwith %}
-      {% endwith %}
-    {% endfor %}
-    <div class="d-flex justify-content-center">
-      <button type="submit" class="btn btn-primary col-md-4 mb-5">Log In</button>
-    </div>
-    <p class="mb-5" style="font-size: 26px; font-weight: 250;">Don't have an account?</p>
-    <div class="d-flex justify-content-center mb-5">
-      <a href="{% url 'register' %}"  class="btn btn-secondary col-md-4" style="text-decoration: none;">Sign Up</a>
-    </div>
-    </a>
-  </form>
+<div class="container mt-5">
+    <h2 class="mb-5 text-center">Login</h2>
+    <form method="post" class="row gy-4 justify-content-center">
+        {% csrf_token %}
+        <div class="col-12 d-flex justify-content-center mb-3">
+            <div style="width: 250px;">
+                {{ form.email|add_class:"form-control form-control-sm mb-3"|attr:"placeholder:Email" }}
+                {{ form.email.errors }}
+            </div>
+        </div>
+        <div class="col-12 d-flex justify-content-center mb-2">
+            <div style="width: 250px;">
+                {{ form.password|add_class:"form-control form-control-sm mb-2"|attr:"placeholder:Password" }}
+                {{ form.password.errors }}
+            </div>
+        </div>
+        <div class="col-12 d-flex flex-column align-items-center mt-3">
+            <button type="submit" class="btn btn-primary px-4 mb-3">Login</button>
+            <span class="mb-1">Don't have an account?</span>
+            <a href="{% url 'register' %}" class="btn btn-outline-secondary mt-2">Sign Up</a>
+        </div>
+    </form>
 </div>
-
 {% endblock %}

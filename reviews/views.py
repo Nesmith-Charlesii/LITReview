@@ -4,20 +4,18 @@ from .forms import ReviewForm, BookForm
 
 
 def home(request):
-    if request.user.is_authenticated:
+    show_all = request.GET.get("all")
+    if request.user.is_authenticated and not show_all:
         followed_users = request.user.following.all()
         reviews = Review.objects.filter(user__in=followed_users).order_by('-created')
-        show_all_reviews_link = True
     else:
         reviews = Review.objects.all().order_by('-created')
-        show_all_reviews_link = False
 
     return render(
         request,
         "reviews/home.html",
         {
             "reviews": reviews,
-            "show_all_reviews_link": show_all_reviews_link,
         }
     )
 
@@ -46,11 +44,9 @@ def post_review(request, pk):
     if request.method == "POST":
         form = ReviewForm(request.POST)
         if form.is_valid():
-            review = Review(
-                book=book,
-                content=form.cleaned_data['content'],
-                rating=form.cleaned_data['rating']
-            )
+            review = form.save(commit=False)
+            review.book = book
+            review.user = request.user
             review.save()
             return redirect("book_view", pk=book.pk)
     else:
