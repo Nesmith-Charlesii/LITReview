@@ -81,4 +81,5 @@ def unfollow_user(request, pk):
     to_unfollow = get_object_or_404(User, pk=pk)
     if to_unfollow != request.user:
         request.user.following.remove(to_unfollow)
-    return redirect('profile', pk=pk)
+    # Redirect to the logged-in user's own profile page
+    return redirect('profile', pk=request.user.pk)
