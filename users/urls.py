@@ -11,4 +11,5 @@ urlpatterns = [
     path('profile/<int:pk>/follow/', views.follow_user, name='follow_user'),
     path('profile/<int:pk>/unfollow/', views.unfollow_user, name='unfollow_user'),
     path("debug/user_ids/", views.user_ids_debug, name="user_ids_debug"),  # Debug route to see all user
+    path("search/", views.user_search, name="user_search"),
 ]

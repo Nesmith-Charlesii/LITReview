@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Book, Review
 from .forms import ReviewForm, BookForm
+from django.db.models import Avg
 
 
 def home(request):
@@ -70,3 +71,10 @@ def delete_review(request, pk):
     book_pk = review.book.pk
     review.delete()
     return redirect("book_view", pk=book_pk)
+
+def book_search(request):
+    query = request.GET.get("search", "")
+    results = []
+    if query:
+        results = Book.objects.filter(title__icontains=query).annotate(avg_rating=Avg('review__rating'))
+    return render(request, "reviews/book_search.html", {"query": query, "results": results})

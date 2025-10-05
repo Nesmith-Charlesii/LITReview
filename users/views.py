@@ -3,6 +3,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.db import models
 from django.contrib.auth import get_user_model
 from reviews.models import Review
 from django.http import JsonResponse
@@ -83,3 +84,15 @@ def unfollow_user(request, pk):
         request.user.following.remove(to_unfollow)
     # Redirect to the logged-in user's own profile page
     return redirect('profile', pk=request.user.pk)
+
+@login_required
+def user_search(request):
+    query = request.GET.get("search", "")
+    results = []
+    if query:
+        results = User.objects.filter(
+            models.Q(username__contains=query) |
+            models.Q(first_name__contains=query) |
+            models.Q(last_name__contains=query)
+        )
+    return render(request, "users/user_search.html", {"query": query, "results": results})

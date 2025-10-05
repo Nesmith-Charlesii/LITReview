@@ -1,62 +1,88 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mt-5">
-    {% if user.is_authenticated %}
-        <h2 class="mb-4">Your Feed</h2>
-        <div class="mb-4 d-flex gap-2">
-            <a href="{% url 'home' %}?all=1" class="btn btn-outline-primary">See All Reviews</a>
-            {% if request.GET.all %}
-                <a href="{% url 'home' %}" class="btn btn-outline-secondary">Show Only People I Follow</a>
-            {% endif %}
-        </div>
-    {% else %}
-        <h2 class="mb-4">All Reviews</h2>
-    {% endif %}
-    {% if reviews %}
-        {% for review in reviews %}
-            <div class="border border-2 rounded-3 p-3 mb-3 d-flex align-items-center">
-                {% if review.book.image %}
-                    <img src="{{ review.book.image.url }}" alt="{{ review.book.title }}" style="height: 120px; width: auto;" class="me-4 rounded">
+<style>
+.home-center-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    min-height: 100vh;
+    min-width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    background: #fff;
+    overflow: auto;
+}
+.staatliches-title {
+    font-family: 'Staatliches', cursive, Arial, sans-serif;
+    font-size: 2.7rem;
+    letter-spacing: 4px;
+    color: #232323;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+</style>
+<div class="home-center-container">
+    <div class="container">
+        <h2 class="staatliches-title">All Reviews</h2>
+        {% if user.is_authenticated %}
+            <h3 class="mb-4">Your Feed</h3>
+            <div class="mb-4 d-flex gap-2">
+                <a href="{% url 'home' %}?all=1" class="btn btn-outline-primary">See All Reviews</a>
+                {% if request.GET.all %}
+                    <a href="{% url 'home' %}" class="btn btn-outline-secondary">Show Only People I Follow</a>
                 {% endif %}
-                <div>
-                    <!-- Book title at the top -->
-                    <div class="h4 mb-2">
-                        <strong>{{ review.book.title }}</strong>
-                    </div>
+            </div>
+        {% endif %}
+        {% if reviews %}
+            {% for review in reviews %}
+                <div class="rounded-3 p-3 mb-3 d-flex align-items-center">
+                    {% if review.book.image %}
+                        <img src="{{ review.book.image.url }}" alt="{{ review.book.title }}" style="height: 120px; width: auto;" class="me-4 rounded">
+                    {% endif %}
                     <div>
-                        <span style="color: #ff6a00; font-size: 1.2em;">
-                            {% for i in "12345" %}
-                                {% if forloop.counter <= review.rating %}
-                                    &#9733;
-                                {% else %}
-                                    &#9734;
-                                {% endif %}
-                            {% endfor %}
-                        </span>
-                        <span class="fw-bold">{{ review.headline }}</span>
-                    </div>
-                    <!-- Review body, reviewer, and date at the bottom -->
-                    <div class="mt-2">
-                        {{ review.body }}
-                    </div>
-                    <div class="text-muted mt-2" style="font-size: 0.95em;">
-                        New review by 
-                        <a href="{% url 'profile' review.user.id %}" style="text-decoration: none;">
-                            {{ review.user.full_name }} <span class="text-muted">@{{ review.user.username }}</span>
-                        </a>
-                        on {{ review.created|date:"M d, Y h:i a" }}
-                    </div>
-                    <div>
-                        <a href="{% url 'book_view' review.book.id %}" class="btn btn-sm btn-link">View Book</a>
+                        <!-- Book title at the top -->
+                        <div class="h4 mb-2">
+                            <strong>{{ review.book.title }}</strong>
+                        </div>
+                        <div>
+                            <span style="color: #ff6a00; font-size: 1.2em;">
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= review.rating %}
+                                        &#9733;
+                                    {% else %}
+                                        &#9734;
+                                    {% endif %}
+                                {% endfor %}
+                            </span>
+                            <span class="fw-bold">{{ review.headline }}</span>
+                        </div>
+                        <!-- Review body, reviewer, and date at the bottom -->
+                        <div class="mt-2">
+                            {{ review.body }}
+                        </div>
+                        <div class="text-muted mt-2" style="font-size: 0.95em;">
+                            New review by 
+                            <a href="{% url 'profile' review.user.id %}" style="text-decoration: none;">
+                                {{ review.user.full_name }} <span class="text-muted">@{{ review.user.username }}</span>
+                            </a>
+                            on {{ review.created|date:"M d, Y h:i a" }}
+                        </div>
+                        <div>
+                            <a href="{% url 'book_view' review.book.id %}" class="btn btn-sm btn-link">View Book</a>
+                        </div>
                     </div>
                 </div>
+            {% endfor %}
+        {% else %}
+            <div class="text-muted">
+                No reviews to show.
             </div>
-        {% endfor %}
-    {% else %}
-        <div class="text-muted">
-            No reviews to show.
-        </div>
-    {% endif %}
+        {% endif %}
+    </div>
 </div>
 {% endblock %}

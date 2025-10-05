@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>User Search Results</h2>
+    <form method="get" action="{% url 'user_search' %}" class="mb-4 d-flex align-items-center" style="gap: 10px; max-width: 600px;">
+        <input 
+            type="text" 
+            name="search" 
+            class="form-control"
+            style="min-width:350px; width:100%;"
+            placeholder="Type the name of the user you are looking for"
+            value="{{ query }}"
+            id="user-search"
+            aria-label="User search"
+        >
+        <button type="submit" class="bg-transparent border-0 d-flex align-items-center justify-content-center"
+            id="search-btn" style="width: 40px; height: 40px; padding: 0; font-size: 1.3rem;">
+            <span class="search-emoji">👀</span>
+        </button>
+    </form>
+    {% if results %}
+        <ul class="list-group">
+            {% for user in results %}
+                <li class="list-group-item">
+                    <a href="{% url 'profile' user.id %}" style="text-decoration: none; color: #0d6efd;">
+                        {{ user.full_name }} <span class="text-muted">(@{{ user.username }})</span>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="text-muted">No users found.</div>
+    {% endif %}
+</div>
+{% endblock %}

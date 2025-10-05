@@ -10,7 +10,9 @@
     {% endif %}
     <form method="post" class="col-md-4 text-center">
         {% csrf_token %}
-        <h2 class="mb-5 display-5" style="padding-bottom: 10px;">Post Review</h2>
+        <h2 class="mb-5 display-5" style="padding-bottom: 10px; font-family: 'Staatliches', cursive, Arial, sans-serif; font-size: 2.7rem; letter-spacing: 4px;">
+            Post Review
+        </h2>
         {% for field in form %}
             {% if field.name == "headline" %}
                 {% with ph=field.label|striptags %}

@@ -2,8 +2,14 @@
 {% load widget_tweaks %}
 
 {% block content %}
-<div class="container mt-5">
-    <h2 class="mb-5 text-center">Login</h2>
+<div class="container mt-5"
+     style="border: 2px solid grey; border-radius: 10px; padding: 30px; max-width: 400px;
+            background: linear-gradient(rgba(30,30,30,0.45), rgba(30,30,30,0.45)),
+                        url('https://img.freepik.com/premium-photo/colorful-illustration-books-scattered-dark-background-with-leaves-floral-elements_1285860-6549.jpg?semt=ais_incoming&w=740&q=80') center center/cover no-repeat;">
+    <h2 class="mb-5 text-center"
+        style="color: #fff; text-shadow: 1px 1px 4px #333; font-family: 'Staatliches', cursive, Arial, sans-serif; font-size: 2.7rem; letter-spacing: 4px;">
+        Log In
+    </h2>
     <form method="post" class="row gy-4 justify-content-center">
         {% csrf_token %}
         <div class="col-12 d-flex justify-content-center mb-3">
@@ -20,8 +26,10 @@
         </div>
         <div class="col-12 d-flex flex-column align-items-center mt-3">
             <button type="submit" class="btn btn-primary px-4 mb-3">Login</button>
-            <span class="mb-1">Don't have an account?</span>
-            <a href="{% url 'register' %}" class="btn btn-outline-secondary mt-2">Sign Up</a>
+            <span class="mb-1" style="color: #fff; text-shadow: 1px 1px 4px #333; font-weight: bold;">
+                Don't have an account?
+            </span>
+            <a href="{% url 'register' %}" class="btn btn-success mt-2">Sign Up</a>
         </div>
     </form>
 </div>

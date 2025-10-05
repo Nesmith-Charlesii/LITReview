@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Book Search Results</h2>
+    {% if results %}
+        <ul class="list-group">
+            {% for book in results %}
+                <li class="list-group-item d-flex align-items-center">
+                    {% if book.image %}
+                        <img src="{{ book.image.url }}" alt="{{ book.title }}" style="height: 80px; width: auto;" class="me-3 rounded">
+                    {% endif %}
+                    <div class="flex-grow-1">
+                        <a href="{% url 'book_view' book.id %}" class="h5 mb-1 d-block">{{ book.title }}</a>
+                        <div>
+                            <span class="text-muted">Reviews: {{ book.review_set.count }}</span>
+                            <span class="ms-3 text-muted">
+                                Average Score:
+                                {% if book.avg_rating %}
+                                    {{ book.avg_rating|floatformat:1 }}/5
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="text-muted">No books found.</div>
+    {% endif %}
+
+    <div class="mt-4">
+        {% if user.is_authenticated %}
+            <a href="{% url 'add_book' %}" class="btn btn-primary">Create a New Book</a>
+        {% else %}
+            <div class="alert alert-info text-center">
+                Log in or <a href="{% url 'register' %}">sign up</a> to create a new book.
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
